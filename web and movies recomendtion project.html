@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie & Web Series Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #5e0a0a;
+            color: white;
+        }
+
+        header {
+            background-color: #1c7508;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .search-bar input {
+            border: none;
+            padding: 8px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: #ff4500;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .search-bar button:hover {
+            background: #ff6347;
+        }
+
+        .featured {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .movie-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .movie-card {
+            background-color: #090000;
+            padding: 15px;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .categories {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .category-list button {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .category-list button:hover {
+            background-color: #0073e6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #0f3443;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Movie & Web Series Recommendations</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">Web Series</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search movies...">
+            <button onclick="searchMovies()">Search</button>
+        </div>
+    </nav>
+</header>
+
+<section class="featured">
+    <h2>Featured Picks</h2>
+    <div class="movie-container">
+        <div class="movie-card">
+            <img src="nickel boys.jpg" alt="Nickel Boys 2025">
+            <h3>Nickel Boys 2025</h3>
+            <p>A powerful drama based on real-life events at a reform school.</p>
+        </div>
+        <div class="movie-card">
+            <img src="loveyapa.jpg" alt="Loveyapa">
+            <h3>Loveyapa 2025</h3>
+            <p>The madness after a couple exchanges their mobile phones and begins to unearth bitter truth about each other.</p>
+        </div>
+        <div class="movie-card">
+            <img src="farzi.jpg" alt="Farzi">
+            <h3>Farzi 2024</h3>
+            <p>Sunny, a brilliant small-time artist, enters the world of counterfeiting while being chased by an unorthodox task force officer.</p>
+        </div>
+        <div class="movie-card">
+            <img src="Poster-Door-Lock-2018.webp" alt="Door Lock 2018">
+            <h3>Door Lock 2018</h3>
+            <p>A thriller that begins with a mysterious murder in a single-room apartment.</p>
+        </div>
+        <div class="movie-card">
+            <img src="breaking-bad-2023-season-1.webp" alt="Breaking Bad 2023">
+            <h3>Breaking Bad 2023 (Season 1)</h3>
+            <p>A chemistry teacher turns to making meth to secure his family's future after a cancer diagnosis.</p>
+        </div>
+        <div class="movie-card">
+            <img src="deadpool--wolverine-2024.webp" alt="Deadpool--Wolverine">
+            <h3>Deadpool--Wolverine 2024</h3>
+            <p>Wade Wilson teams up with Wolverine to stop a threat to his world.</p>
+        </div>
+    </div>
+</section>
+
+<section class="categories">
+    <h2>Categories</h2>
+    <div class="category-list">
+        <button>Action</button>
+        <button>Comedy</button>
+        <button>Drama</button>
+        <button>Thriller</button>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Movie Recommendations. All rights reserved.</p>
+</footer>
+
+<script>
+    // Track page visit
+    fetch("https://yourserver.com/track-visit", {
+        method: "POST"
+    });
+
+    // Track clicks on movie cards
+    const movieCards = document.querySelectorAll('.movie-card');
+
+    movieCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const movieTitle = card.querySelector('h3').innerText;
+
+            fetch("https://yourserver.com/track-click", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: movieTitle, time: new Date() })
+            });
+        });
+    });
+
+    // Track view duration
+    let startTime = Date.now();
+
+    window.addEventListener("beforeunload", () => {
+        let endTime = Date.now();
+        let timeSpent = Math.floor((endTime - startTime) / 1000); // in seconds
+
+        fetch("https://yourserver.com/view-duration", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ duration: timeSpent, page: window.location.pathname })
+        });
+    });
+
+    // Dummy search function (optional)
+    function searchMovies() {
+        const input = document.getElementById('searchInput').value;
+        alert("Search for: " + input); // Replace with real search logic
+    }
+</script>
+
+</body>
+</html>
